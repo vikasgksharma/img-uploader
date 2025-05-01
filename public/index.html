@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <title>Upload File</title>
+</head>
+<body>
+  
+  <br>
+    <form id="uploadForm">
+      
+      <div class="flex flex-col items-center justify-center h-screen">
+        <h1 class="text-3xl font-bold underline">Image Uploading Portal</h1>
+        <input type="file" name="image" id="fileInput" accept="image/*" class="w-100 border border-grey-300 rounded-lg " required>
+            
+    <button type="submit" class="bg-indigo-500 hover:bg-fuchsia-500 ...">Upload</button>
+      </div>
+     
+  </form>
+
+  <div id="result"></div>
+  <script>
+    const form = document.getElementById('uploadForm');
+    const resultDiv = document.getElementById('result');
+    form.addEventListener('submit',async(e)=>{
+      e.preventDefault();
+      const fileInput=document.getElementById('fileInput');
+      const file=fileInput.files[0];
+      const formData=new FormData();
+      formData.append('image',file);
+
+      try{
+        const res =await fetch('http://localhost:3000/upload',{
+          method:'POST',
+          body:formData          
+        })
+        const data=await res.json();
+        if(data.url){
+          resultDiv.innerHTML=
+          `<p> Upload Sucessfully </p>
+          <a href="${data.url}" target="_blank">${data.url}</a> <br><br>
+          <img src="" alt="Uploaded Image" width="300"/>;
+          `;
+        }else
+        {
+          resultDiv.innerHTML=`<p> ${data.error} </p>`;
+        }
+      }catch(err){
+         console.error(err);
+         resultDiv.innerHTML=`<p> Error: ${err.message} </p>`;
+      }
+    });
+  </script>
+</body>
+</html>
