@@ -32,20 +32,21 @@
       formData.append('image',file);
 
       try{
-        const res =await fetch('http://localhost:3000/upload',{
+       // const res =await fetch('http://localhost:3000/upload',{
+       const res =await fetch('https://img-uploader-production-02cf.up.railway.app/upload',{
           method:'POST',
           body:formData          
-        })
+        });
         const data=await res.json();
-        if(data.url){
+        if(data.file){
           resultDiv.innerHTML=
           `<p> Upload Sucessfully </p>
-          <a href="${data.url}" target="_blank">${data.url}</a> <br><br>
-          <img src="" alt="Uploaded Image" width="300"/>;
+          <a href="${data.file}" target="_blank">${data.file}</a> <br><br>
+          <img src="${data.file}" alt="Uploaded Image" width="300"/>;
           `;
         }else
         {
-          resultDiv.innerHTML=`<p> ${data.error} </p>`;
+          resultDiv.innerHTML=`<p> ${data.error || 'upload failed' } </p>`;
         }
       }catch(err){
          console.error(err);
