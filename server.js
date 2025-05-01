@@ -3,9 +3,14 @@ const multer = require('multer');
 const dotenv = require('dotenv').config();
 const cloudinary = require('cloudinary').v2;
 const fs = require('fs');
+const cors=require('cors');
 
 const app = express();
 const upload = multer({dest:'uploads/'});
+
+app.use(cors({
+  origin:'*' //allow all origins
+}));
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
