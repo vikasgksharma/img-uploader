@@ -32,7 +32,7 @@
       formData.append('image',file);
 
       try{
-        const res =await fetch('img-uploader-production-02cf.up.railway.app',{
+        const res =await fetch('http://localhost:3000/upload',{
           method:'POST',
           body:formData          
         })
